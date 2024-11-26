@@ -53,8 +53,13 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   fontFamily = "Arial, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue",
   fontSize = "14px",
   arrowIndent = 20,
+  holidayList = [],
   todayColor = "rgba(252, 248, 227, 0.5)",
+  holidayColor = "rgba(88, 255, 71, 0.2)",
+  weekendColor = "rgba(255, 99, 71, 0.2)",
+  weekendDay = [6,0],
   viewDate,
+  centerViewDate = true,
   TooltipContent = StandardTooltipContent,
   TaskListHeader = TaskListHeaderDefault,
   TaskListTable = TaskListTableDefault,
@@ -188,7 +193,14 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         return;
       }
       setCurrentViewDate(viewDate);
-      setScrollX(columnWidth * index);
+      if (centerViewDate) {
+        // Scroll x + half of columns in the screen
+        const halfContainer = svgContainerWidth / 2;
+        const halfColumn = columnWidth / 2;
+        setScrollX((columnWidth * index) - halfContainer + halfColumn);
+      } else {
+        setScrollX(columnWidth * index);
+      }
     }
   }, [
     viewDate,
@@ -399,6 +411,10 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     rowHeight,
     dates: dateSetup.dates,
     todayColor,
+    weekendDay,
+    weekendColor,
+    holidayList,
+    holidayColor,
     rtl,
   };
   const calendarProps: CalendarProps = {

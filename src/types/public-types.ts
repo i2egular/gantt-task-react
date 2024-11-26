@@ -140,6 +140,17 @@ export interface StylingOption {
   }>;
 }
 
-export interface GanttProps extends EventOption, DisplayOption, StylingOption {
+export interface ExtraOption {
+  // Holiday
+  holidayColor?: string;
+  holidayList?: Date[];
+  // Weekend
+  weekendColor?: string;
+  weekendDay?: number[];
+  // Center viewDate
+  centerViewDate?: boolean
+}
+
+export interface GanttProps extends EventOption, DisplayOption, StylingOption, ExtraOption {
   tasks: Task[];
 }

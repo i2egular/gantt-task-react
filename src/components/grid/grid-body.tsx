@@ -1,6 +1,6 @@
 import React, { ReactChild } from "react";
 import { Task } from "../../types/public-types";
-import { addToDate } from "../../helpers/date-helper";
+import { addToDate, isSameDate } from "../../helpers/date-helper";
 import styles from "./grid.module.css";
 
 export type GridBodyProps = {
@@ -10,8 +10,13 @@ export type GridBodyProps = {
   rowHeight: number;
   columnWidth: number;
   todayColor: string;
+  weekendDay?: number[];
+  weekendColor?: string;
+  holidayList?: Date[];
+  holidayColor?: string;
   rtl: boolean;
 };
+
 export const GridBody: React.FC<GridBodyProps> = ({
   tasks,
   dates,
@@ -19,6 +24,10 @@ export const GridBody: React.FC<GridBodyProps> = ({
   svgWidth,
   columnWidth,
   todayColor,
+  weekendDay,
+  weekendColor,
+  holidayList,
+  holidayColor,
   rtl,
 }) => {
   let y = 0;
@@ -61,6 +70,8 @@ export const GridBody: React.FC<GridBodyProps> = ({
   let tickX = 0;
   const ticks: ReactChild[] = [];
   let today: ReactChild = <rect />;
+  const weekend: ReactChild[] = [];
+  const holidays: ReactChild[] = [];
   for (let i = 0; i < dates.length; i++) {
     const date = dates[i];
     ticks.push(
@@ -97,6 +108,42 @@ export const GridBody: React.FC<GridBodyProps> = ({
         />
       );
     }
+
+    // Weekend
+    const currentDay = date.getDay();
+    const currentTime = date.getTime();
+    if (weekendDay && weekendDay.includes(currentDay)) {
+      weekend.push(
+        <rect 
+          key={`we-${currentTime}`}
+          x={tickX}
+          y={0}
+          width={columnWidth}
+          height={y}
+          fill={weekendColor}
+        />
+      )
+    }
+
+    // Holiday
+    if (holidayList && holidayList.length > 0) {
+      // Check if current time is within holiday range
+      for (let j = 0; j < holidayList.length; j++) {
+        if (isSameDate(holidayList[j], date)) {
+          holidays.push(
+            <rect 
+              key={`hl-${currentTime}`}
+              x={tickX}
+              y={0}
+              width={columnWidth}
+              height={y}
+              fill={holidayColor}
+            />
+          )
+        }
+      }
+    }
+
     // rtl for today
     if (
       rtl &&
@@ -122,6 +169,8 @@ export const GridBody: React.FC<GridBodyProps> = ({
       <g className="rowLines">{rowLines}</g>
       <g className="ticks">{ticks}</g>
       <g className="today">{today}</g>
+      <g className="weekend">{weekend}</g>
+      <g className="holidays">{holidays}</g>
     </g>
   );
 };

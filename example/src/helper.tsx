@@ -93,6 +93,15 @@ export function initTasks() {
       isDisabled: true,
       type: "task",
     },
+    {
+      start: new Date(currentDate.getFullYear(), 11, 10),
+      end: new Date(currentDate.getFullYear(), 11, 30),
+      name: "Party Time",
+      id: "Task 10",
+      progress: 0,
+      isDisabled: true,
+      type: "task",
+    },
   ];
   return tasks;
 }

@@ -67,6 +67,11 @@ const App = () => {
     console.log("On expander click Id:" + task.id);
   };
 
+  const today = new Date();
+  const holidayList = [
+    new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+  ]
+
   return (
     <div className="Wrapper">
       <ViewSwitcher
@@ -74,9 +79,11 @@ const App = () => {
         onViewListChange={setIsChecked}
         isChecked={isChecked}
       />
-      <h3>Gantt With Unlimited Height</h3>
+      <h3>Gantt With Unlimited Height + Added centerViewDate and viewDate to today</h3>
       <Gantt
         tasks={tasks}
+        holidayList={holidayList}
+        viewDate={today}
         viewMode={view}
         onDateChange={handleTaskChange}
         onDelete={handleTaskDelete}

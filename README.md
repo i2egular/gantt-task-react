@@ -66,6 +66,7 @@ npm start
 | [EventOption](#EventOption)     | interface     | Specifies gantt events.                            |
 | [DisplayOption](#DisplayOption) | interface     | Specifies view type and display timeline language. |
 | [StylingOption](#StylingOption) | interface     | Specifies chart and global tasks styles            |
+| [ExtraOption](#ExtraOption)   | interface     | Specifies extra options --- added in this forked repo    |
 
 ### EventOption
 
@@ -143,6 +144,18 @@ npm start
 | hideChildren   | bool     | Hide children items. Parameter works with project type only                                           |
 
 \*Required
+
+### ExtraOption
+
+| Parameter Name | Type     | Description                                                                                           |
+| :------------- | :------- | :---------------------------------------------------------------------------------------------------- |
+| holidayColor   | string   | color for holiday                                                          |
+| weekendColor   | string   | color for weekend                                                          |
+| holidayList    | Date[]   | list of holidays as array of Date object                                   |
+| weekendDays    | number[] | list of day index for weekend (e.g. saturday+sunday = [6,0])               |
+| centerViewDate | bool     | centering the viewDate property (default to true) *                                     |
+
+Notes:: centerViewDate might not correctly show if the element is not enough to scroll to center, it will be still on mostly left in normal mode
 
 ## License
 
