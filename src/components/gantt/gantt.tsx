@@ -66,6 +66,11 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   onSelect,
   onExpanderClick,
 }) => {
+  // Short circuit fix :: when no tasks -- will cause error on startup
+  if (tasks.length === 0) {
+		return null;
+	}
+  
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
   const [dateSetup, setDateSetup] = useState<DateSetup>(() => {

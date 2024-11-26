@@ -103,6 +103,8 @@ const App = () => {
         ganttHeight={300}
         columnWidth={columnWidth}
       />
+      <h3>Gantt with no data</h3>
+      <Gantt tasks={[]}/>
     </div>
   );
 };
